@@ -93,6 +93,31 @@ def manage_companies():
     while True:
         print('1. Create company')
         print('2. Read companies')
+        print('3. Update companies')
+        print('4. Delete companies')
+        print('5. Go Back')
+        choice = input('Select your option: ')
+
+        if choice == '1':
+            name = input('Enter the name of the company: ')
+            city = input('Enter the city the company is located in: ')
+            create_company(name, city)
+        elif choice == '2':
+            companies = read_companies()
+            for company in companies:
+                print(company)
+        elif choice == '3':
+            company_id = INT(input('Enter the new company Id number: '))
+            name = input('Enter the new company name: ')
+            city = input('Enter the compnay city name: ')
+            update_companies(company_id, name, city)
+        elif choice == '4':
+            company_id = INT(input('Enter the company Id number you wish to delete: '))
+            delete_companies(company_id)
+        elif choice == '5':
+            break
+        else:
+            print('Invalid option choice. Please make another selection: ')
 
 
 
