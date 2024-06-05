@@ -33,7 +33,6 @@ connection = psycopg2.connect(database='crm_db')
 
 cursor = connection.cursor()
 
-
 # Company CRUD Functions
 def create_company(name, city):
     cursor.execute('INSERT INTO companies (name, city) VALUES (%s, %s)', (name, city) )
@@ -41,14 +40,14 @@ def create_company(name, city):
 
 def read_companies():
     cursor.execute('SELECT * FROM companies')
-    print(cursor.fetchall())
+    return cursor.fetchall()
 
-def update_companies(name, city, company_id):
+def update_companies(company_id, name, city):
     cursor.execute('UPDATE companies SET name = %s, city = %s WHERE id = %s', (name, city, company_id))
     connection.commit()
 
 def delete_companies(company_id):
-    cursor.execute('DELETE FROM companies WHERE id = %s', (company_id))
+    cursor.execute('DELETE FROM companies WHERE id = %s', (company_id,))
     connection.commit()
 
 
@@ -60,14 +59,14 @@ def create_employee(name, company_id):
 
 def read_employees():
     cursor.execute('SELECT * FROM employees')
-    print(cursor.fetchall())
+    return cursor.fetchall()
 
-def update_employees(name, employee_id, company_id):
+def update_employees(employee_id, name, company_id):
     cursor.execute('UPDATE employees SET name = %s, company_id = %s WHERE id = %s', (name, company_id, employee_id))
     connection.commit()
 
 def delete_employees(employee_id):
-    cursor.execute('DELETE FROM employees WHERE id = %s', (employee_id))
+    cursor.execute('DELETE FROM employees WHERE id = %s', (employee_id,))
     connection.commit()
 
 
@@ -76,7 +75,7 @@ def delete_employees(employee_id):
 def terminal_menu():
     while True:
         print('1. Manage Companies')
-        print('2. Manage Employess')
+        print('2. Manage Employees')
         print('3. Exit')
         choice = input('Enter the number of your choice: ')
 
@@ -89,6 +88,7 @@ def terminal_menu():
         else:
             print('Enter a valid option. ')
 
+# Manage Company Loop
 def manage_companies():
     while True:
         print('1. Create company')
@@ -109,7 +109,7 @@ def manage_companies():
         elif choice == '3':
             company_id = int(input('Enter the new company Id number: '))
             name = input('Enter the new company name: ')
-            city = input('Enter the compnay city name: ')
+            city = input('Enter the company city name: ')
             update_companies(company_id, name, city)
         elif choice == '4':
             company_id = int(input('Enter the company Id number you wish to delete: '))
@@ -120,7 +120,7 @@ def manage_companies():
             print('Invalid option choice. Please make another selection: ')
 
 
-
+# Manage Employee Loop
 def manage_employees():
     while True:
         print('1. Create employee')
@@ -139,10 +139,10 @@ def manage_employees():
             for employee in employees:
                 print(employee)
         elif choice == '3':
-            company_id = int(input("Enter the employee's new company Id number: "))
             employee_id = int(input('Enter the new employee Id number: '))
             name = input('Enter the new employee name: ')
-            update_employees(company_id, employee_id, name)
+            company_id = int(input("Enter the employee's new company Id number: "))
+            update_employees(employee_id, name, company_id)
         elif choice == '4':
             employee_id = int(input('Enter the employee Id number you wish to delete: '))
             delete_employees(employee_id)
@@ -151,31 +151,8 @@ def manage_employees():
         else:
             print('Invalid option choice. Please make another selection: ')
 
-
-if __name__ == '__terminal_menu__':
+# Calling the terminal actions
+if __name__ == '__main__':
     terminal_menu()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-cursor.close()
-connection.close()
+    cursor.close()
+    connection.close()
