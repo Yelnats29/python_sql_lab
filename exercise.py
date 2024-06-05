@@ -107,17 +107,53 @@ def manage_companies():
             for company in companies:
                 print(company)
         elif choice == '3':
-            company_id = INT(input('Enter the new company Id number: '))
+            company_id = int(input('Enter the new company Id number: '))
             name = input('Enter the new company name: ')
             city = input('Enter the compnay city name: ')
             update_companies(company_id, name, city)
         elif choice == '4':
-            company_id = INT(input('Enter the company Id number you wish to delete: '))
+            company_id = int(input('Enter the company Id number you wish to delete: '))
             delete_companies(company_id)
         elif choice == '5':
             break
         else:
             print('Invalid option choice. Please make another selection: ')
+
+
+
+def manage_employees():
+    while True:
+        print('1. Create employee')
+        print('2. Read employees')
+        print('3. Update employees')
+        print('4. Delete employees')
+        print('5. Go Back')
+        choice = input('Select your option: ')
+
+        if choice == '1':
+            name = input('Enter the name of the employee: ')
+            company_id = input("Enter the employee's company Id number: ")
+            create_employee(name, company_id)
+        elif choice == '2':
+            employees = read_employees()
+            for employee in employees:
+                print(employee)
+        elif choice == '3':
+            company_id = int(input("Enter the employee's new company Id number: "))
+            employee_id = int(input('Enter the new employee Id number: '))
+            name = input('Enter the new employee name: ')
+            update_employees(company_id, employee_id, name)
+        elif choice == '4':
+            employee_id = int(input('Enter the employee Id number you wish to delete: '))
+            delete_employees(employee_id)
+        elif choice == '5':
+            break
+        else:
+            print('Invalid option choice. Please make another selection: ')
+
+
+if __name__ == '__terminal_menu__':
+    terminal_menu()
 
 
 
@@ -142,5 +178,4 @@ def manage_companies():
 
 
 cursor.close()
-create_company('Google', 'New York')
 connection.close()
